@@ -108,13 +108,14 @@ function Titulo(props) {
                 width: { xs: '100%', sm: '50%' }, textAlign: 'center', marginBottom: '32px',
               }}
             >
-              <Titulo tag="h2">Bem Vindo!!</Titulo>
+              <Titulo tag="h2"  >Bem Vindo! </Titulo>
               <Text variant="body3" styleSheet= {{ marginBottom: '32px', color: appConfig.theme.colors.neutrals[300] }}>
                 {appConfig.name}
               </Text>
               
-              <input  
-              type="text" 
+            
+              
+              { <TextField
               value={username}
               onChange={function (event)  {
                 console.log('usuario digitou', event.target.value);
@@ -122,22 +123,20 @@ function Titulo(props) {
                 const valor = event.target.value;
                 //Trocar o valor da variável
                 setUsername(valor);
-              }
-            }
-              />
-              
-              
-              {/* <TextField
+              }}
                 fullWidth
+                
                 textFieldColors={{
                   neutral: {
-                    textColor: appConfig.theme.colors.neutrals[200],
-                    mainColor: appConfig.theme.colors.neutrals[900],
-                    mainColorHighlight: appConfig.theme.colors.primary[500],
-                    backgroundColor: appConfig.theme.colors.neutrals[800],
+                    textColor: appConfig.theme.colors.neutrals[500],
+                    mainColor: appConfig.theme.colors.neutrals[100],
+                    mainColorHighlight: appConfig.theme.colors.primary[200],
+                    backgroundColor: appConfig.theme.colors.neutrals[999],
                   },
                 }}
-              /> */}
+              /> }
+
+              
                <Button
 
 type='submit'
@@ -154,7 +153,7 @@ buttonColors={{
 
   mainColorLight: appConfig.theme.colors.primary[100],
 
-  mainColorStrong: appConfig.theme.colors.primary[200],
+  mainColorStrong: appConfig.theme.colors.primary[999],
 
 }}
 
@@ -208,7 +207,7 @@ styleSheet={{
 
   color: appConfig.theme.colors.neutrals[200],
 
-  backgroundColor: appConfig.theme.colors.neutrals[900],
+  backgroundColor: appConfig.theme.colors.neutrals[700],
 
   padding: '3px 10px',
 
@@ -246,7 +245,7 @@ variant="iae"
 
 styleSheet={{
 
-  color: appConfig.theme.colors.neutrals[200],
+  color: appConfig.theme.colors.neutrals[700],
 
   backgroundColor: appConfig.theme.colors.neutrals[900],
 
@@ -272,7 +271,7 @@ styleSheet={{
 
               color: appConfig.theme.colors.neutrals[100],
 
-              backgroundColor: appConfig.theme.colors.neutrals[500],
+              backgroundColor: appConfig.theme.colors.neutrals[700],
 
               padding: '3px 10px',
 
