@@ -40,10 +40,10 @@ function Titulo(props) {
  // export default HomePage
 
  export default function PaginaInicial() {
-    // const username = '';
+    // const username = 'Kirito02312';
     
     //User
-    const [username, setUsername] = React.useState('');
+    const [username, setUsername] = React.useState('Kirito02312');
     const roteamento = useRouter();
     const errorImage = 'https://pbs.twimg.com/media/EwohEf3WQAElyTH.png';
 
