@@ -23,7 +23,8 @@ export default function ChatPage() {
             .order('id', {ascending: false})
             .then(({ data }) => {
                 console.log('Dados da Consulta:', data);
-                setListaDeMensagens(data);
+                setListaDeMensagens(data)
+                
             });
     }, []);
 
