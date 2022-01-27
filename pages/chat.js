@@ -1,11 +1,34 @@
 import { Box, Text, TextField, Image, Button } from '@skynexui/components';
 import React from 'react';
 import appConfig from './config.json'
+import { createClient } from '@supabase/supabase-js'
+
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzMxNTYxNCwiZXhwIjoxOTU4ODkxNjE0fQ.LieYE3kcVMPtqQvxlj9YgKkg0sKSkjsKi9eZJvHq8hs'
+const SUPABASE_URL = 'https://eokmtsqyacvmihpepjim.supabase.co'
+const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+
+
+
 
 export default function ChatPage() {
     const [mensagem, setMensagem] = React.useState('')
-
     const [listaDeMensagens, setListaDeMensagens] = React.useState([])
+    const [loading, setLoading] = React.useState(true)
+
+    React.useEffect(() => {
+        supabaseClient
+            .from('mensagens')
+            .select('*')
+            .order('id', {ascending: false})
+            .then(({ data }) => {
+                console.log('Dados da Consulta:', data);
+                setListaDeMensagens(data);
+            });
+    }, []);
+
+
+
     /*
     // Usuário
     - Usuário digita no campo textarea
@@ -19,17 +42,29 @@ export default function ChatPage() {
     */
     function handleNovaMensagem(novaMensagem) {
         const mensagem = {
-            id: listaDeMensagens.length + 1,
+            // id: listaDeMensagens.length + 1,
             de: 'Lucas Oliveira',
             texto: novaMensagem,
 
-        }
-       
-        setListaDeMensagens([
-            mensagem,
-            ...listaDeMensagens,
-            
-        ]);
+        };
+        supabaseClient
+            .from('mensagens')
+            .insert([
+                    //Tem que ser um objeto com os mesmos campos que vc escreveu no supabase
+                mensagem
+            ])
+            .then(({ data }) => {
+                console.log('Criando Mensagem', data);
+
+                setListaDeMensagens([
+                    data[0],
+                    ...listaDeMensagens,
+
+                ]);
+
+            });
+
+
         setMensagem('');
     }
 
@@ -72,7 +107,7 @@ export default function ChatPage() {
                     }}
                 >
 
-                    <MessageList mensagens={listaDeMensagens}setListaDeMensagens={setListaDeMensagens} />
+                    <MessageList mensagens={listaDeMensagens} setListaDeMensagens={setListaDeMensagens} />
                     {/* {listaDeMensagens.map((mensagemAtual) =>  {
                         
                          return (
@@ -120,35 +155,35 @@ export default function ChatPage() {
                         />
 
 
-<Button 
+                        <Button
 
-    type='submit'
+                            type='submit'
 
-    label='Enviar'
+                            label='Enviar'
 
-    variant='tertiary'
+                            variant='tertiary'
 
-    colorVariant='primary'
+                            colorVariant='primary'
 
-    onClick={(e) => {
+                            onClick={(e) => {
 
-        e.preventDefault();
+                                e.preventDefault();
 
-        handleNovaMensagem(mensagem);
+                                handleNovaMensagem(mensagem);
 
-    }}
+                            }}
 
-/>
+                        />
 
-</Box>
+                    </Box>
 
-</Box>
+                </Box>
 
-</Box>
+            </Box>
 
-</Box>
+        </Box>
 
-)
+    )
 
 }
 
@@ -159,9 +194,9 @@ function Header() {
         <>
             <Box styleSheet={{ width: '100%', marginBottom: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }} >
                 <Text variant='heading5'>
-                    
+
                     Chat
-                    
+
                 </Text>
                 <Button
                     variant='tertiary'
@@ -181,7 +216,7 @@ function MessageList(props) {
 
     function handleRemovedMsg(messageId) {
 
-        
+
 
         let novaLista = props.mensagens.filter((message) => {
 
@@ -193,7 +228,7 @@ function MessageList(props) {
 
                 return message;
 
-            }    
+            }
 
         })
 
@@ -228,7 +263,7 @@ function MessageList(props) {
                             padding: '6px',
                             marginBottom: '12px',
                             hover: {
-                                backgroundColor: appConfig.theme.colors.neutrals[100    ],
+                                backgroundColor: appConfig.theme.colors.neutrals[100],
                             }
                         }}
                     >
@@ -245,7 +280,7 @@ function MessageList(props) {
                                     display: 'inline-block',
                                     marginRight: '8px',
                                 }}
-                                src={`https://github.com/Kirito02312.png`}
+                                src={`https://github.com/${mensagem.de}.png`}
                             />
                             <Text tag="strong">
                                 {mensagem.de}
@@ -260,15 +295,15 @@ function MessageList(props) {
                             >
                                 {(new Date().toLocaleDateString())}
                             </Text>
-                            <Button     
+                            <Button
 
-                                onClick={ ()=> {
+                                onClick={() => {
 
-                                    
+
 
                                     handleRemovedMsg(mensagem.id)
 
-                                }}                          
+                                }}
 
                                 buttonColors={{
 
@@ -288,7 +323,7 @@ function MessageList(props) {
                                     color: appConfig.theme.colors.neutrals[400],
 
 
-                                   
+
                                     borderRadius: "100%",
 
                                     height: "20px",
@@ -324,7 +359,7 @@ function MessageList(props) {
 
                         </Box>
                         {mensagem.texto}
-                        
+
                     </Text>
 
 
