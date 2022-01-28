@@ -6,7 +6,7 @@ import appConfig from './config.json'
 
 
 function Titulo(props) {
-    console.log(props);
+    
     const Tag = props.tag;
     return (
     <>
@@ -281,7 +281,7 @@ styleSheet={{
 
             >
 
-      {githubData.git} Git
+      {githubData.name} Git
 
             </Text>
 
