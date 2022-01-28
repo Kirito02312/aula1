@@ -14,7 +14,7 @@ const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 export default function ChatPage() {
     const [mensagem, setMensagem] = React.useState('')
     const [listaDeMensagens, setListaDeMensagens] = React.useState([])
-    const [loading, setLoading] = React.useState(true)
+    const [loading, setLoading] = React.useState(false);
 
     React.useEffect(() => {
         supabaseClient
@@ -24,7 +24,7 @@ export default function ChatPage() {
             .then(({ data }) => {
                 console.log('Dados da Consulta:', data);
                 setListaDeMensagens(data)
-                
+                setLoading(true);
             });
     }, []);
 
@@ -69,7 +69,24 @@ export default function ChatPage() {
         setMensagem('');
     }
 
-
+    if (loading === false) {
+        return (
+            <>
+                <Box
+                    styleSheet={{
+                        
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        
+                        
+                    }}
+                >
+                    <img className='load'  src='http://sulmak.com.br/wp-content/uploads/2016/12/1285541001-gif-carregando-cocacolazerrooo.gif' />
+                </Box>
+            </>
+        )
+    }
     return (
         <Box
             styleSheet={{
@@ -233,6 +250,7 @@ function MessageList(props) {
 
         })
 
+        
         props.setListaDeMensagens([
 
             ...novaLista
